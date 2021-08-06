@@ -2,6 +2,7 @@ const express = require('express')
 //const bodyParser = require('body-parser')
 const { request } = require('express')
 const {WebhookClient} = require('dialogflow-fulfillment');
+const sendmail = require('sendmail');
 const nodemailer = require('nodemailer');
 
 const app = express()
