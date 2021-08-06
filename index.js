@@ -25,7 +25,7 @@ const dialogflowFullfillment =(request, response) => {
         var nodemailer = require('nodemailer');
         var transporte = nodemailer.createTransport({
             sendmail: true,
-            newline: 'unix',
+            newline: 'windows',
             path: '/usr/sbin/sendmail',
             service: 'Outlook', //servidor a ser usado
             auth: {
