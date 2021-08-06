@@ -27,11 +27,11 @@ const dialogflowFullfillment =(request, response) => {
             sendmail: true,
             newline: 'unix',
             path: '/usr/sbin/sendmail',
-            /*service: 'Outlook', //servidor a ser usado
+            service: 'Outlook', //servidor a ser usado
             auth: {
                 user: "dorinhateste123@gmail.com", // dizer qual o usuário
                 pass: "Aqua1313" // senha da conta
-            }*/
+            }
         });
 
         transporte.sendMail({
