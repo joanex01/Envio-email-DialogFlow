@@ -21,20 +21,14 @@ app.listen(port,() =>{
 
 const dialogflowFullfillment =(request, response) => {
     const agent = new WebhookClient({request, response})
-    /*function error(error, info){
-        if(error){
-            console.log (error);
-            throw error; // algo de errado aconteceu.
-        }
-        //agent.add('Email enviado! Leia as informações adicionais: '+ info);
-    }*/
+    
     function envio_email(agent){
         var nodemailer = require('nodemailer');
         var sendmail = require('sendmail');
         var transporter = nodemailer.createTransport({
-            sendmail: true,
+            /*sendmail: true,
             newline: 'windows',
-            path: '/usr/sbin/sendmail',
+            path: '/usr/sbin/sendmail',*/
             service: 'Outlook', //servidor a ser usado
             auth: {
                 user: "dorinhateste123@gmail.com", // dizer qual o usuário
