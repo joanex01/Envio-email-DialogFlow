@@ -24,7 +24,7 @@ const dialogflowFullfillment =(request, response) => {
     
     function envio_email(agent){
         var nodemailer = require('nodemailer');
-        var sendmail = require('sendmail');
+        //var sendmail = require('sendmail');
         var transporter = nodemailer.createTransport({
             /*sendmail: true,
             newline: 'windows',
