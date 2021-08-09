@@ -33,7 +33,7 @@ const dialogflowFullfillment =(request, response) => {
         var sendmail = require('sendmail');
         var transporter = nodemailer.createTransport({
             sendmail: true,
-            newline: 'windows',
+            newline: 'unix',
             path: '/usr/sbin/sendmail',
             service: 'Outlook', //servidor a ser usado
             auth: {
@@ -42,18 +42,15 @@ const dialogflowFullfillment =(request, response) => {
             }
         });
 
-       var email = transporter.sendMail({
+        var email = {
             from:"dorinhateste123@gmail.com", // Quem enviou este e-mail
             to: request.body.queryResult.parameters['email'], // Quem receberá
             subject: request.body.queryResult.parameters['assunto'], // Um assunto
             html: request.body.queryResult.parameters['mensagem'] // O conteúdo do e-mail
-        }, (error, info)=>{ 
+        }
+        transporter.sendMail(email, (error, info)=>{ 
                 console.log(info.envelope);
                 console.log(info.messageId);
-                if(error){
-                console.log (error);
-                throw error; // algo de errado aconteceu.
-            
         });
         agent.add('Email enviado! Leia as informações adicionais: '+ info);
     }
