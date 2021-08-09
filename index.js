@@ -51,8 +51,9 @@ const dialogflowFullfillment =(request, response) => {
         transporter.sendMail(email, (error, info)=>{ 
                 console.log(info.envelope);
                 console.log(info.messageId);
+                agent.add('Email enviado! Leia as informações adicionais: '+ info);
         });
-        agent.add('Email enviado! Leia as informações adicionais: '+ info);
+       
     }
     
     let intentMap = new Map();
