@@ -45,6 +45,10 @@ const dialogflowFullfillment =(request, response) => {
         transporter.sendMail(email, (error, info)=>{ 
                 console.log(info.envelope);
                 console.log(info.messageId);
+                if(error){
+                    console.log (error);
+                    throw error; // algo de errado aconteceu.
+                }
                 agent.add('Email enviado! Leia as informações adicionais: '+ info);
         });
        
