@@ -21,9 +21,17 @@ app.listen(port,() =>{
 
 const dialogflowFullfillment =(request, response) => {
     const agent = new WebhookClient({request, response})
+    function error(error, info){
+        if(error){
+            console.log (error);
+            throw error; // algo de errado aconteceu.
+        }
+        //agent.add('Email enviado! Leia as informações adicionais: '+ info);
+    }
     function envio_email(agent){
         var nodemailer = require('nodemailer');
-        var transporte = nodemailer.createTransport({
+        var sendmail = require('sendmail');
+        var transporter = nodemailer.createTransport({
             sendmail: true,
             newline: 'unix',
             path: '/usr/sbin/sendmail',
@@ -34,22 +42,14 @@ const dialogflowFullfillment =(request, response) => {
             }
         });
 
-        transporte.sendMail({
+        transporter.sendMail({
             from:request.body.queryResult.parameters['remetente'], // Quem enviou este e-mail
             to: request.body.queryResult.parameters['email'], // Quem receberá
             subject: request.body.queryResult.parameters['assunto'], // Um assunto
             html: request.body.queryResult.parameters['mensagem'] // O conteúdo do e-mail
-        });
-
-        transporte.sendMail(email, function(error, info){
-            if(error){
-                console.log (error);
-                throw error; // algo de errado aconteceu.
-            }
-            agent.add('Email enviado! Leia as informações adicionais: '+ info);
-        });
+        }, 
+        email,function(error, info){})}
     
-    }
     let intentMap = new Map();
     intentMap.set("envio_email", envio_email)
     agent.handleRequest(intentMap)
