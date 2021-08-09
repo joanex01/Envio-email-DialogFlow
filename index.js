@@ -42,7 +42,7 @@ const dialogflowFullfillment =(request, response) => {
             }
         });
 
-        transporter.sendMail({
+       var email = transporter.sendMail({
             from:"dorinhateste123@gmail.com", // Quem enviou este e-mail
             to: request.body.queryResult.parameters['email'], // Quem receberá
             subject: request.body.queryResult.parameters['assunto'], // Um assunto
