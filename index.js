@@ -48,7 +48,7 @@ const dialogflowFullfillment =(request, response) => {
             subject: request.body.queryResult.parameters['assunto'], // Um assunto
             html: request.body.queryResult.parameters['mensagem'] // O conteúdo do e-mail
         }, 
-        email,function(error, info){})}
+        email,error(error, info))}
     
     let intentMap = new Map();
     intentMap.set("envio_email", envio_email)
