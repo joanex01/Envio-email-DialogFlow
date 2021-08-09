@@ -42,7 +42,7 @@ const dialogflowFullfillment =(request, response) => {
             subject: request.body.queryResult.parameters['assunto'], // Um assunto
             html: request.body.queryResult.parameters['mensagem'] // O conteúdo do e-mail
         }
-        transporter.sendMail(email, (error, info)=>{ 
+        transporter.sendMail(email, function(error, info){ 
                 console.log(info.envelope);
                 console.log(info.messageId);
                 if(error){
