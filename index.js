@@ -2,7 +2,7 @@ const express = require('express')
 //const bodyParser = require('body-parser')
 const { request } = require('express')
 const {WebhookClient} = require('dialogflow-fulfillment');
-//const sendmail = require('sendmail');
+const sendmail = require('sendmail');
 const nodemailer = require('nodemailer');
 
 const app = express()
@@ -21,13 +21,12 @@ app.listen(port,() =>{
 
 const dialogflowFullfillment =(request, response) => {
     const agent = new WebhookClient({request, response})
-    
     function envio_email(agent){
         var nodemailer = require('nodemailer');
-        //var sendmail = require('sendmail');
+        var sendmail = require('sendmail');
         var transporter = nodemailer.createTransport({
             /*sendmail: true,
-            newline: 'windows',
+            newline: 'unix',
             path: '/usr/sbin/sendmail',*/
             service: 'Outlook', //servidor a ser usado
             auth: {
@@ -41,8 +40,8 @@ const dialogflowFullfillment =(request, response) => {
             to: request.body.queryResult.parameters['email'], // Quem receberá
             subject: request.body.queryResult.parameters['assunto'], // Um assunto
             html: request.body.queryResult.parameters['mensagem'] // O conteúdo do e-mail
-        }
-        transporter.sendMail(email, function(error, info){ 
+        };
+        transporter.sendMail(email,function(error, info){ 
                 //console.log(info.envelope);
                 //console.log(info.messageId);
                 if(error){
@@ -51,7 +50,6 @@ const dialogflowFullfillment =(request, response) => {
                 }
                 agent.add('Email enviado! Leia as informações adicionais: '+ info);
         });
-       
     }
     
     let intentMap = new Map();
