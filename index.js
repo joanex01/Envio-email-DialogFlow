@@ -25,9 +25,9 @@ const dialogflowFullfillment =(request, response) => {
         var nodemailer = require('nodemailer');
         var sendmail = require('sendmail');
         var transporter = nodemailer.createTransport({
-            /*sendmail: true,
+            sendmail: true,
             newline: 'unix',
-            path: '/usr/sbin/sendmail',*/
+            path: '/usr/sbin/sendmail',
             service: 'Outlook', //servidor a ser usado
             auth: {
                 user: "dorinhateste123@gmail.com", // dizer qual o usuário
@@ -36,7 +36,7 @@ const dialogflowFullfillment =(request, response) => {
         });
 
         var email = {
-            from:"dorinhateste123@gmail.com", // Quem enviou este e-mail
+            from:request.body.queryResult.parameters['remetente'], // Quem enviou este e-mail
             to: request.body.queryResult.parameters['email'], // Quem receberá
             subject: request.body.queryResult.parameters['assunto'], // Um assunto
             html: request.body.queryResult.parameters['mensagem'] // O conteúdo do e-mail
