@@ -15,8 +15,7 @@
     "dialogflow-fulfillment": "^0.6.1",
     "express": "^4.17.1",
     "nodemailer": "^6.6.3",
-    "postfix": "0.0.1",
-    "sendmail": "^1.6.1"
+    "postfix": "0.0.1"
   },
   "devDependencies": {
     "@types/dialogflow-fulfillment": "^0.6.1",
