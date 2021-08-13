@@ -2,7 +2,8 @@ const express = require('express')
 //const bodyParser = require('body-parser')
 const { request } = require('express')
 const {WebhookClient} = require('dialogflow-fulfillment');
-const buscaCep = require('busca-cep')
+const sendmail = require('sendmail');
+const nodemailer = require('nodemailer');
 
 const app = express()
 //app.use(bodyParser.json())
@@ -20,19 +21,38 @@ app.listen(port,() =>{
 
 const dialogflowFullfillment =(request, response) => {
     const agent = new WebhookClient({request, response})
-    var soma = request.body.queryResult.parameters['number'] + request.body.queryResult.parameters['number1']
-    var CEP = request.body.queryResult.parameters['zip-code']
-    function BCEP(agent){
-        buscaCep(CEP, { sync: false, timeout: 1000 }).then(endereco => {
-        var local = endereco.logradouro +" - "+ endereco.bairro +"\n"+ endereco.localidade +" - "+ endereco.uf +"\n"+ endereco.cep;
-        agent.add("Ok, seu CEP está confirmado:" + "\n" + local)
-        })
+    function envio_email(agent){
+        var nodemailer = require('nodemailer');
+        var sendmail = require('sendmail');
+        var transporter = nodemailer.createTransport({
+            sendmail: true,
+            newline: 'unix',
+            path: '/usr/bin/msmt -t',
+            service: 'Outlook', //servidor a ser usado
+            auth: {
+                user: "dorinhateste123@gmail.com", // dizer qual o usuário
+                pass: "Aqua1313" // senha da conta
+            }
+        });
+
+        var email = {
+            from:request.body.queryResult.parameters['remetente'], // Quem enviou este e-mail
+            to: request.body.queryResult.parameters['email'], // Quem receberá
+            subject: request.body.queryResult.parameters['assunto'], // Um assunto
+            html: request.body.queryResult.parameters['mensagem'] // O conteúdo do e-mail
+        };
+        transporter.sendMail(email,function(error, info){ 
+                //console.log(info.envelope);
+                //console.log(info.messageId);
+                if(error){
+                    console.log (error);
+                    throw error; // algo de errado aconteceu.
+                }
+                agent.add('Email enviado! Leia as informações adicionais: '+ info);
+        });
     }
-    //function Soma(agent){
-    //    agent.add("O resultado é: "+ soma)
-    //}
-    let intentMap = new Map()
-    //intentMap.set("Soma", Soma)
-    intentMap.set("user.cep",BCEP)
+    
+    let intentMap = new Map();
+    intentMap.set("envio_email", envio_email)
     agent.handleRequest(intentMap)
 }
