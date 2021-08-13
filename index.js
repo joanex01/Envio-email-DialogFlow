@@ -2,7 +2,7 @@ const express = require('express')
 //const bodyParser = require('body-parser')
 const { request } = require('express')
 const {WebhookClient} = require('dialogflow-fulfillment');
-const sendmail = require('sendmail');
+const sendmail = require('sendmail')();
 const nodemailer = require('nodemailer');
 
 const app = express()
@@ -27,12 +27,7 @@ const dialogflowFullfillment =(request, response) => {
         var transporter = nodemailer.createTransport({
             sendmail: true,
             newline: 'unix',
-            path: '/usr/bin/msmt -t',
-            service: 'Outlook', //servidor a ser usado
-            auth: {
-                user: "dorinhateste123@gmail.com", // dizer qual o usuário
-                pass: "Aqua1313" // senha da conta
-            }
+            path: '/usr/sbin/sendmail',
         });
 
         var email = {
